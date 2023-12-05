@@ -8,6 +8,7 @@
         name: "result"
 
 <CalculatorGUI>:
+
     BoxLayout
         orientation: 'vertical'
         padding: 20
@@ -62,7 +63,7 @@
                         rectangle: self.x, self.y, self.width, self.height
 
             Label:
-                text: 'years'
+                text: 'years old'
                 color: 0, 0, 0, 1
                 canvas.before:
                     Color:
@@ -77,8 +78,9 @@
             
             Label:
                 id: gender
-                text: 'Gender'
+                text: 'Gender: '
                 color: 0, 0, 0, 1
+                font_size: 35
                 canvas.before:
                     Color:
                         rgba: 1, 1, 1, 1
@@ -129,6 +131,14 @@
         BoxLayout:
             Label:
                 text: 'Weight: '
+                font_size: 35
+                color: 0, 0, 0, 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
             TextInput:
                 id: weight
             Label:
@@ -139,6 +149,14 @@
         BoxLayout:
             Label:
                 text: 'Height: '
+                font_size: 35
+                color: 0, 0, 0, 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
             TextInput:
                 id: height_input
             Label:
@@ -150,6 +168,14 @@
             Label:
                 id: activity_label
                 text: 'Activity Level: '
+                font_size: 35
+                color: 0, 0, 0, 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
 
             Spinner:
                 id: activity_spinner
@@ -162,9 +188,8 @@
         BoxLayout:
             Button:
                 text: 'Submit'
-                on_press: root.result()
+                on_press: root.validate_input()
                 on_release: root.manager.current = "result"
-
 
     # Result Page
 <ResultGUI>
