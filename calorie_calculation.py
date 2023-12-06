@@ -56,9 +56,9 @@ def daily_carb_rec_needs(daily_calorie_needs):
     ''' This function calculates the recommended daily needs of carbohydrates.
         The recommended daily carb needs is 45-65% of total calorie.
     '''
-    carb_needs_low = 0.4 * daily_calorie_needs
-    carb_needs_high = 0.65 * daily_calorie_needs
-    carb_daily_needs = carb_needs_low + " grams -" + carb_needs_high + " grams"
+    carb_needs_low = round(0.4 * daily_calorie_needs)
+    carb_needs_high = round(0.65 * daily_calorie_needs)
+    carb_daily_needs = str(carb_needs_low) + " -" + str(carb_needs_high) + " grams"
     return carb_daily_needs
 
 
@@ -66,9 +66,9 @@ def daily_protein_rec_needs(daily_calorie_needs):
     ''' This function calculates the recommended daily needs of protein.
         The recommended daily protein needs is 10-35% of total calorie.
     '''
-    pro_needs_low = 0.1 * daily_calorie_needs
-    pro_needs_high = 0.35 * daily_calorie_needs
-    pro_daily_needs = pro_needs_low + " grams - " + pro_needs_high + " grams"
+    pro_needs_low = round(0.1 * daily_calorie_needs)
+    pro_needs_high = round(0.35 * daily_calorie_needs)
+    pro_daily_needs = str(pro_needs_low) + " - " + str(pro_needs_high) + " grams"
     return pro_daily_needs
 
 
@@ -76,9 +76,14 @@ def daily_fat_rec_needs(daily_calorie_needs):
     ''' This function calculates the recommended daily needs of fat.
         The recommended daily fat needs is 20-35% of total calorie.
     '''
-    fat_needs_low = 0.1 * daily_calorie_needs
-    fat_needs_high = 0.35 * daily_calorie_needs
-    fat_daily_needs = fat_needs_low + " grams - " + fat_needs_high + " grams"
+    fat_needs_low = round(0.1 * daily_calorie_needs)
+    fat_needs_high = round(0.35 * daily_calorie_needs)
+    fat_daily_needs = str(fat_needs_low) + " - " + str(fat_needs_high) + " grams"
     return fat_daily_needs
 
 
+def weight_goal(daily_calorie_needs, weight_goal, weight, months):
+    weight_change = weight_goal - weight
+    days = months * 30
+    daily_calorie_needs_weight_change = ((weight_change / 0.45) * 3500) / days + daily_calorie_needs
+    return round(daily_calorie_needs_weight_change)

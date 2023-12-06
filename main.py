@@ -11,48 +11,75 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
+from kivy.config import Config
+
+# set window size 
+Config.set('graphics', 'resizable', True)
+Config.set('graphics', 'width', '800')
+Config.set('graphics', 'height', '1000')
 
 
 class ScreenManagement(ScreenManager):
     pass
 
 class CalculatorGUI(Screen):
+    gender = 'Please select a gender'
+    activity_level = 'Select activity level'
+
+    
+
     def checkbox_click(self, instance, value, sex):
-        if value == True:
-            self.ids.gender = sex
+        if value:
+            self.gender = sex
+            print("gender is checked")
         else:
-            self.ids.gender = ''
-        return self.ids.gender
+            self.gender = 'Please select a gender'
+            print("gender is unchecked")
+        return self.gender
 
     def spinner_selected(self, values):
-        self.ids.activity_label = values
-        return self.ids.activity_label
+        if values:
+            self.activity_level = values
+        else:
+            self.activity_level = 'Select activity level'
+        return self.activity_level
 
     def result(self):
         try:
             age = int(self.ids.age.text)
-            gender = str(self.ids.gender)
+            gender = str(self.gender)
             height = float(self.ids.height_input.text)
             weight = float(self.ids.weight.text)
-            activity_level = str(self.ids.activity_label)
+            activity_level = str(self.activity_level)
+            weight_goal = float(self.ids.weight_goal.text)
+            months = float(self.ids.months.text)
         except ValueError:
             print("An Error occurred.'")
         
         result_bmr = calorie_calculation.bmr_calculator(age, gender, weight, height)
         result_bmi = calorie_calculation.bmi_calculator(weight, height)
         result_total_calorie = calorie_calculation.total_calorie_calculator(result_bmr, activity_level)
+        result_weight_goal_calorie = calorie_calculation.weight_goal(result_total_calorie, weight_goal, weight, months)
+        carb_daily_needs = calorie_calculation.daily_carb_rec_needs(result_weight_goal_calorie)
+        pro_daily_needs = calorie_calculation.daily_protein_rec_needs(result_weight_goal_calorie)
+        fat_daily_needs = calorie_calculation.daily_fat_rec_needs(result_weight_goal_calorie)
+        
 
-        self.manager.get_screen('result').ids.result_bmr_label.text = f'Basal Metabolic Rate (BMR): {result_bmr} calories/day'
-        self.manager.get_screen('result').ids.result_bmi_label.text = f'Body Mass Index (BMI): {result_bmi} kg/m^2'
-        self.manager.get_screen('result').ids.result_total_calorie_label.text = f'Total Calorie Needs: {result_total_calorie} calories/day'
-
+        self.manager.get_screen('result').ids.result_bmr_label.text = f'Current Basal Metabolic Rate (BMR): {result_bmr} calories/day'
+        self.manager.get_screen('result').ids.result_bmi_label.text = f'Current Body Mass Index (BMI): {result_bmi} kg/m^2'
+        self.manager.get_screen('result').ids.result_total_calorie_label.text = f'Total Calorie Needs for maintaining the current weight: {result_total_calorie} calories/day'
+        self.manager.get_screen('result').ids.achieve_goal.text = f'To achieve your Goal Weight of {int(weight_goal)} kg in {int(months)} months with your Current Activity Level:'
+        self.manager.get_screen('result').ids.carb_daily_needs_label.text = 'Daily Carbohydrate Needs: ' + carb_daily_needs
+        self.manager.get_screen('result').ids.pro_daily_needs_label.text = 'Daily Protein Needs: ' + pro_daily_needs
+        self.manager.get_screen('result').ids.fat_daily_needs_label.text = 'Daily Fat Needs: ' + fat_daily_needs
+        self.manager.get_screen('result').ids.result_weight_goal_calorie_label.text = f'Total Calorie Needs: {result_weight_goal_calorie} calories/day'
 
     def validate_input(self):
             age = self.ids.age.text
-            gender = self.ids.gender
+            gender = self.gender
             height = self.ids.height_input.text
             weight = self.ids.weight.text
-            activity_level = self.ids.activity_label
+            activity_level = self.activity_level
             
             input_validation = True
             if not age.isnumeric():
@@ -85,12 +112,12 @@ class CalculatorGUI(Screen):
                 self.ids.weight.text = ''  # Clear the input field    
                 input_validation = False
 
-            if gender == '':
+            if gender == 'Please select a gender':
                 self.show_error_popup("Please select a gender.")
                 input_validation = False
 
-            if activity_level == "Select activity level":
-                self.show_error_popup("Please select an gender.")
+            if activity_level == 'Select activity level':
+                self.show_error_popup("Please select an activity level.")
                 input_validation = False
             
             if input_validation == True:
