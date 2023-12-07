@@ -1,13 +1,24 @@
 #:kivy 1.0.9
 <ScreenManagement>
     CalculatorGUI:
-        id: calculator_gui
         name: "calculator"
-    ResultGUI:
-        id: result_gui
-        name: "result"
+    GoalaskingGUI:
+        name: "goal_asking"
+    ResultmaintainGUI:
+        name: "result_maintain"
+    WeightgoalGUI:
+        name: "weight_goal"
+    ResultgoalGUI:
+        name: "result_goal"
+
 
 <CalculatorGUI>:
+    canvas.before:
+        Color: 
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
     BoxLayout
         orientation: 'vertical'
@@ -43,7 +54,6 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
-            
 
             TextInput:
                 id: age
@@ -143,15 +153,17 @@
                         size: self.size
             TextInput:
                 id: weight
-            Label:
+            ToggleButton:
                 text: 'kg'
-                color: 0, 0, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+                group: 'weight unit'
+                state: 'down'
+                on_release: root.weight_unit_toggle(self)
+            ToggleButton:
+                text: 'lbs'
+                group: 'weight unit'
+                on_release: root.weight_unit_toggle(self)  
+                
+            
             
 
         # Height Row: height, user input box, unit(cm)
@@ -168,15 +180,15 @@
                         size: self.size
             TextInput:
                 id: height_input
-            Label:
+            ToggleButton:
                 text: 'cm'
-                color: 0, 0, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+                group: 'height unit'
+                state: 'down'
+                on_release: root.height_unit_toggle(self)
+            ToggleButton:
+                text: 'inches'
+                group: 'height unit'
+                on_release: root.height_unit_toggle(self) 
 
 
         # Activity Level: spinner
@@ -194,7 +206,6 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
-
             Spinner:
                 id: activity_spinner
                 text: 'Select activity level'
@@ -203,39 +214,118 @@
                 on_text: root.spinner_selected(activity_spinner.text)
         
         BoxLayout:
-            Label: 
-                text: 'Weight Goal: '
+            Button:
+                text: 'Next'
+                on_press: root.validate_input()
+                on_release: root.manager.current = "goal_asking"
+             
+<GoalaskingGUI>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "What's Your Health Goal?"
+        Button:
+            text: 'Weight Maintainence'
+            on_press: root.result_maintain()
+            on_release: root.manager.current = "result_maintain"
+        Button:
+            text: 'Weight Loss'
+            on_release: root.manager.current = "weight_goal"
+        Button:
+            text: 'Weight Gain'
+            on_release: root.manager.current = "weight_goal"
+
+
+<WeightgoalGUI>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "What's your goal weight?"
+        BoxLayout:
             TextInput:
                 id: weight_goal
-            Label:
+            ToggleButton:
                 text: 'kg'
-            Label: 
-                text: 'in'
+                group: 'weight unit'
+                state: 'down'
+                on_release: root.weight_unit_toggle(self)
+            ToggleButton:
+                text: 'lbs'
+                group: 'weight unit'
+                on_release: root.weight_unit_toggle(self)  
+        Label:
+            text: "What's your timeline?"
+        BoxLayout:
+            Label:
+                text: 'In'
             TextInput:
                 id: months
             Label:
                 text: 'months'
-             
-             
-
+        Label:
+            text: 'Planning to change your activity level?'
+        Spinner:
+            id: activity_spinner
+            text: ''
+            values: 'Sedentary: little or no exercise', 'Lightly Active: light exercise 1-3 times/week', 'Moderately Active: light to moderate exercise 4-5 times/week', 'Active: moderate exercise 6-7 times/week or intense exercise 3-4 times/week', 'Very Active: intense exercise 6-7 times/week'
+            background_color: 90/255, 95/255, 90/255, 1
+            on_text: root.spinner_selected(activity_spinner.text)
         # Submit Row: submit button
-        BoxLayout:
-            Button:
-                text: 'Submit'
-                on_press: root.validate_input()
-                on_release: root.manager.current = "result"
+        Button:
+            text: 'Submit'
+            on_press: root.result_goal()
+            on_release: root.manager.current = "result_goal"
 
 
-
-
-
-    # Result Page
-<ResultGUI>
+<ResultmaintainGUI>:
     BoxLayout:
         orientation: 'vertical'
         padding: 20
         spacing: 10
+        # title row: tile
+        Label:
+            text: 'Your Results for Weight Maintainence'
+            text_size: root.width, None
+            font_size: 55
+            bold: True
+            color: 0, 0, 0, 1
+            halign: 'center'
+            valign: 'center'
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [20]
+        Label:
+            id: result_bmr_label
+            text: ''
+        Label:
+            id: result_bmi_label
+            text: ''
+        Label:
+            id: result_total_calorie_label
+            text: ''
+        Label:
+            id: carb_daily_needs_label
+            text: ''
+        Label:
+            id: pro_daily_needs_label
+            text: ''
+        Label:
+            id: fat_daily_needs_label
+            text: ''   
+        Button:
+            text: 'Back'
+            on_press: root.manager.current = "calculator"
 
+
+<ResultgoalGUI>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
         # title row: tile
         Label:
             text: 'Your Results'
@@ -252,18 +342,12 @@
                     pos: self.pos
                     size: self.size
                     radius: [20]
-
-        
         Label:
             id: result_bmr_label
             text: ''
         Label:
             id: result_bmi_label
             text: ''
-        Label:
-            id: result_total_calorie_label
-            text: ''
-
         Label:
             text: ''
             id: achieve_goal
@@ -291,8 +375,6 @@
         Label:
             id: fat_daily_needs_label
             text: ''   
-        
-        
         Button:
             text: 'Back'
             on_press: root.manager.current = "calculator"
