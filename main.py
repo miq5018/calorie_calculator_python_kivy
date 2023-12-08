@@ -15,12 +15,10 @@ from kivy.uix.popup import Popup
 from kivy.config import Config
 
 
-
 # set window size 
 Config.set('graphics', 'resizable', True)
 Config.set('graphics', 'width', '800')
-Config.set('graphics', 'height', '1000')
-
+Config.set('graphics', 'height', '800')
 
 class ScreenManagement(ScreenManager):
     pass
@@ -196,6 +194,7 @@ class ResultmaintainGUI(Screen):
 
 class WeightgoalGUI(Screen):
     weight_unit = 'kg'
+    activity_level = 'Select activity level'
 
 
     def weight_unit_toggle(self, instance):
@@ -225,7 +224,7 @@ class WeightgoalGUI(Screen):
         weight_goal = float(self.manager.get_screen('weight_goal').ids.weight_goal.text)
         months = float(self.manager.get_screen('weight_goal').ids.months.text)
         weight_unit = str(self.manager.get_screen('calculator').weight_unit)
-        height_unit = str(self.manager.get_screen('calculator').height_unit_spinner)
+        height_unit = str(self.manager.get_screen('calculator').height_unit)
 
 
         if weight_unit == 'lbs':

@@ -13,268 +13,353 @@
 
 
 <CalculatorGUI>:
+    # set background color and size of the CalculatorGUI screen
     canvas.before:
         Color: 
-            rgba: 1, 1, 1, 1
+            rgba: 247/255, 245/255, 235/255, 1
         Rectangle:
             pos: self.pos
             size: self.size
 
-    BoxLayout
+    BoxLayout:
         orientation: 'vertical'
-        padding: 20
-        spacing: 10
-
-        # title row: tile
-        Label:
-            text: 'Daily Calorie Need Calulator'
+        padding: 25
+        spacing: 25
+        # title row: title
+        BlueLabel:
+            text: 'Calorie Need Calulator'
             text_size: root.width, None
+        # Basic info row: text
+        Label:
+            text: 'Enter your basic info below:'
+            text_size: self.size
             font_size: 55
-            bold: True
+            font_name: "SF_Cartoonist_Hand"
             color: 0, 0, 0, 1
-            halign: 'center'
+            size_hint:(1, 0.3)
+            halign: 'left'
             valign: 'center'
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                RoundedRectangle:
-                    pos: self.pos
-                    size: self.size
-                    radius: [20]
-        
         # Age Row: age, user input box, unit
-        BoxLayout:
+        BrownBoxLayout:
+            spacing: 20
+            size_hint_y: None
+            height: 180
             Label:
+                size_hint_x: None
+                width: 480
                 text: 'Age: '
-                font_size: 35
+                font_size: 80
+                font_name: "SF_Cartoonist_Hand_Bold"
                 color: 0, 0, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-
-            TextInput:
-                id: age
-                multiline: False
-                cursor_color: 0, 0, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 210/255, 210/255, 210/255, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-                canvas.before:
-                    Color:
-                        rgba: 180/255, 180/255, 180/255, 1
-                    Line:
-                        width: 1
-                        rectangle: self.x, self.y, self.width, self.height
-
+            BoxLayout:
+                orientation: 'vertical'
+                # Empty widget to push TextInput to the center vertically
+                Widget:
+                    size_hint_y: None
+                    height: 40
+                CustomTextInput:
+                    id: age
+                    size_hint: (1, 0.8)
+                # Empty widget to push TextInput to the center vertically
+                Widget:
+                    size_hint_y: None
+                    height: 40
             Label:
                 text: 'years old'
                 color: 0, 0, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
         
-
         # Gender Row: gender, male, checkbox, female, checkbox
         BoxLayout:
-            
+            size_hint_y: None
+            height: 150
             Label:
                 id: gender_label
                 text: 'Gender: '
-                color: 0, 0, 0, 1
                 size_hint_x: None
                 width: 500
-                font_size: 35
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+                font_size: 80
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
             Label:
                 text: "Male"
-                font_size: 25
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
                 color: 0, 0, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
             CheckBox:
                 group: "gender"
                 canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
                 on_active: root.checkbox_click(self, self.active, "Male" )
             Label:
                 text: "Female"
-                font_size: 25
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
                 color: 0, 0, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
             CheckBox:
                 group: "gender"
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
                 on_active: root.checkbox_click(self, self.active, "Female")
 
-
         # Weight Row: weight, user input box, unit(kg)
-        BoxLayout:
+        BrownBoxLayout:
+            size_hint_y: None
+            height: 180
             Label:
                 text: 'Weight: '
-                font_size: 35
-                color: 0, 0, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-            TextInput:
-                id: weight
-            ToggleButton:
-                text: 'kg'
-                group: 'weight unit'
-                state: 'down'
-                on_release: root.weight_unit_toggle(self)
-            ToggleButton:
-                text: 'lbs'
-                group: 'weight unit'
-                on_release: root.weight_unit_toggle(self)  
-                
-            
-            
-
-        # Height Row: height, user input box, unit(cm)
-        BoxLayout:
-            Label:
-                text: 'Height: '
-                font_size: 35
-                color: 0, 0, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-            TextInput:
-                id: height_input
-            ToggleButton:
-                text: 'cm'
-                group: 'height unit'
-                state: 'down'
-                on_release: root.height_unit_toggle(self)
-            ToggleButton:
-                text: 'inches'
-                group: 'height unit'
-                on_release: root.height_unit_toggle(self) 
-
-
-        # Activity Level: spinner
-        BoxLayout:
-            Label:
-                id: activity_label
-                text: 'Activity Level: '
-                font_size: 35
+                font_name: "SF_Cartoonist_Hand_Bold"
+                font_size: 80
                 color: 0, 0, 0, 1
                 size_hint_x: None
                 width: 500
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-            Spinner:
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: None
+                width: 520
+                Widget:
+                    size_hint_y: None
+                    height: 40
+                CustomTextInput:
+                    id: weight
+                    size_hint_x: None
+                    size_hint_y: None
+                    height: 100
+                    width: 500
+                Widget:
+                    size_hint_y: None
+                    height: 40
+            CustomToggleButton:
+                text: 'kg'
+                group: 'weight unit'
+                state: 'down'
+                size_hint: None, None
+                size: 160, 80
+                pos_hint: {'left_x': 0.2, 'center_y': 0.5}
+                on_release: root.weight_unit_toggle(self)
+            CustomToggleButton:
+                text: 'lbs'
+                group: 'weight unit'
+                size_hint: None, None
+                size: 160, 80
+                pos_hint: {'x': 0.4, 'center_y': 0.5}
+                on_release: root.weight_unit_toggle(self)  
+
+        # Height Row: height, user input box, unit(cm)
+        BoxLayout:
+            size_hint_y: None
+            height: 150
+            Label:
+                text: 'Height: '
+                font_size: 80
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+                size_hint_x: None
+                width: 500
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: None
+                width: 520
+                Widget:
+                    size_hint_y: None
+                    height: 35
+                CustomTextInput:
+                    id: height_input
+                    size_hint_x: None
+                    size_hint_y: None
+                    height: 100
+                    width: 500
+                Widget:
+                    size_hint_y: None
+                    height: 35
+            CustomToggleButton:
+                text: 'cm'
+                group: 'height unit'
+                state: 'down'
+                size_hint: None, None
+                size: 160, 80
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_release: root.height_unit_toggle(self)
+            CustomToggleButton:
+                text: 'inches'
+                group: 'height unit'
+                size_hint: None, None
+                size: 160, 80
+                pos_hint: {'x': 0.4, 'center_y': 0.5}
+                on_release: root.height_unit_toggle(self) 
+
+        # Activity Level: spinner
+        BrownBoxLayout:
+            size_hint_y: None
+            height: 180
+            Label:
+                id: activity_label
+                text: 'Activity Level: '
+                font_size: 80
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+                size_hint_x: None
+                width: 500
+            ActivitySpinner:
                 id: activity_spinner
-                text: 'Select activity level'
-                values: 'Sedentary: little or no exercise', 'Lightly Active: light exercise 1-3 times/week', 'Moderately Active: light to moderate exercise 4-5 times/week', 'Active: moderate exercise 6-7 times/week or intense exercise 3-4 times/week', 'Very Active: intense exercise 6-7 times/week'
-                background_color: 90/255, 95/255, 90/255, 1
+                size_hint_y: None
+                height: 100
+                pos_hint: {'center_y': 0.5}
                 on_text: root.spinner_selected(activity_spinner.text)
         
-        BoxLayout:
-            Button:
-                text: 'Next'
-                on_press: root.validate_input()
-                on_release: root.manager.current = "goal_asking"
-             
+        RoundedButton:
+            text: 'Next'
+            font_size: 80
+            font_name: "SF_Cartoonist_Hand_Bold"
+            size_hint: (0.3, 0.7)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            on_press: root.validate_input()
+            on_release: root.manager.current = "goal_asking"
+
+
+
 <GoalaskingGUI>:
+    canvas.before:
+        Color: 
+            rgba: 247/255, 245/255, 235/255, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     BoxLayout:
+        padding: 25
+        spacing: 45
         orientation: 'vertical'
-        Label:
+        BlueLabel:
             text: "What's Your Health Goal?"
         Button:
             text: 'Weight Maintainence'
+            font_size: 90
+            font_name: "SF_Cartoonist_Hand_Bold"
+            color: 0, 0, 0, 1
+            size_hint: (0.6, 0.6)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            background_normal: ''
+            background_color: 234/255, 224/255, 218/255, 1
             on_press: root.result_maintain()
             on_release: root.manager.current = "result_maintain"
         Button:
             text: 'Weight Loss'
+            font_size: 90
+            font_name: "SF_Cartoonist_Hand_Bold"
+            color: 0, 0, 0, 1
+            size_hint: (0.6, 0.6)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            background_normal: ''
+            background_color: 234/255, 224/255, 218/255, 1
             on_release: root.manager.current = "weight_goal"
         Button:
             text: 'Weight Gain'
+            font_size: 90
+            font_name: "SF_Cartoonist_Hand_Bold"
+            color: 0, 0, 0, 1
+            size_hint: (0.6, 0.6)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            background_normal: ''
+            background_color: 234/255, 224/255, 218/255, 1
             on_release: root.manager.current = "weight_goal"
-
+        RoundedButton:
+            text: 'Back'
+            font_size: 70
+            size_hint: (0.3, 0.4)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            on_press: 
+                root.manager.current = "calculator"
+                root.manager.transition.direction = 'right'
 
 <WeightgoalGUI>:
+    canvas.before:
+        Color: 
+            rgba: 247/255, 245/255, 235/255, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
     BoxLayout:
         orientation: 'vertical'
-        Label:
+        padding: 25
+        spacing: 45
+        BlueLabel:
             text: "What's your goal weight?"
-        BoxLayout:
-            TextInput:
+            font_size: 90
+        BrownBoxLayout:
+            Widget:
+                size_hint_x: None
+                width: 400
+            CustomTextInput:
                 id: weight_goal
-            ToggleButton:
+                size_hint: None, None
+                size: 500, 100
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            Widget:
+                size_hint_x: None
+                width: 30
+            CustomToggleButton:
                 text: 'kg'
                 group: 'weight unit'
                 state: 'down'
+                size_hint: None, None
+                size: 160, 80
+                pos_hint: {'left_x': 0.2, 'center_y': 0.5}
                 on_release: root.weight_unit_toggle(self)
-            ToggleButton:
+            CustomToggleButton:
                 text: 'lbs'
                 group: 'weight unit'
+                size_hint: None, None
+                size: 160, 80
+                pos_hint: {'x': 0.4, 'center_y': 0.5}
                 on_release: root.weight_unit_toggle(self)  
-        Label:
+        BlueLabel:
             text: "What's your timeline?"
-        BoxLayout:
+            font_size: 90
+        BrownBoxLayout:
             Label:
                 text: 'In'
-            TextInput:
+                font_name: "SF_Cartoonist_Hand_Bold"
+                font_size: 80
+                color: 0, 0, 0, 1
+                pos_hint: {'center_x': 0.9, 'center_y': 0.5}
+            CustomTextInput:
                 id: months
+                size_hint: None, None
+                size: 500, 100
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             Label:
                 text: 'months'
-        Label:
+                font_size: 80
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+                pos_hint: {'center_x': 0.1, 'center_y': 0.5}
+        BlueLabel:
             text: 'Planning to change your activity level?'
-        Spinner:
+            font_size: 90
+        ActivitySpinner:
             id: activity_spinner
-            text: ''
-            values: 'Sedentary: little or no exercise', 'Lightly Active: light exercise 1-3 times/week', 'Moderately Active: light to moderate exercise 4-5 times/week', 'Active: moderate exercise 6-7 times/week or intense exercise 3-4 times/week', 'Very Active: intense exercise 6-7 times/week'
-            background_color: 90/255, 95/255, 90/255, 1
+            font_size: 40
             on_text: root.spinner_selected(activity_spinner.text)
         # Submit Row: submit button
-        Button:
-            text: 'Submit'
-            on_press: root.result_goal()
-            on_release: root.manager.current = "result_goal"
+        BoxLayout:
+            spacing: 45
+            RoundedButton:
+                text: 'Back'
+                font_size: 70
+                size_hint: (0.1, 0.6)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_release: 
+                    root.manager.current = "goal_asking"
+                    root.manager.transition.direction = 'right'
+            RoundedButton:
+                text: 'Submit'
+                font_size: 70
+                size_hint: (0.1, 0.6)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_press: root.result_goal()
+                on_release: root.manager.current = "result_goal"
 
 
 <ResultmaintainGUI>:
@@ -378,3 +463,58 @@
         Button:
             text: 'Back'
             on_press: root.manager.current = "calculator"
+
+
+
+<RoundedButton@Button>
+    background_color: 0, 0, 0, 0
+    background_normal: ''
+    font_name: "SF_Cartoonist_Hand_Bold"
+    canvas.before:
+        Color:
+            rgba: 245/255, 203/255, 203/255, 1
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [75]
+<BlueLabel@Label>
+    font_size: 110
+    font_name: "SF_Cartoonist_Hand_Bold"
+    bold: True
+    color: 0, 0, 0, 1
+    halign: 'center'
+    valign: 'center'
+    size_hint: (1, 0.7)
+    canvas.before:
+        Color:
+            rgba: 160/225, 195/255, 210/255, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [30]
+<BrownBoxLayout@BoxLayout>
+    canvas.before:
+        Color: 
+            rgba: 234/255, 224/255, 218/255, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [20]
+<CustomTextInput@TextInput>
+    multiline: False
+    cursor_color: 0, 0, 0, 1
+    font_size: 70
+    font_color: 0, 0, 0, 1
+    font_name: "SF_Cartoonist_Hand"
+    background_color: 250/255, 248/255, 247/255, 1 
+    border: 187/255, 179/255, 174/255, 1
+<CustomToggleButton@ToggleButton>
+    font_name: "SF_Cartoonist_Hand"
+    font_size: 45
+    background_down: ''
+    background_color: 160/225, 195/255, 210/255, 1
+<ActivitySpinner@Spinner>
+    text: 'Select activity level'
+    values: 'Sedentary: little or no exercise', 'Lightly Active: light exercise 1-3 times/week', 'Moderately Active: light to moderate exercise 4-5 times/week', 'Active: moderate exercise 6-7 times/week or intense exercise 3-4 times/week', 'Very Active: intense exercise 6-7 times/week'
+    background_normal: ''
+    background_color: 187/255, 179/255, 174/255, 1
