@@ -58,7 +58,7 @@ def daily_carb_rec_needs(daily_calorie_needs):
     '''
     carb_needs_low = round(0.4 * daily_calorie_needs)
     carb_needs_high = round(0.65 * daily_calorie_needs)
-    carb_daily_needs = str(carb_needs_low) + " -" + str(carb_needs_high) + " grams"
+    carb_daily_needs = str(carb_needs_low) + " -" + str(carb_needs_high) + " grams/day"
     return carb_daily_needs
 
 
@@ -68,7 +68,7 @@ def daily_protein_rec_needs(daily_calorie_needs):
     '''
     pro_needs_low = round(0.1 * daily_calorie_needs)
     pro_needs_high = round(0.35 * daily_calorie_needs)
-    pro_daily_needs = str(pro_needs_low) + " - " + str(pro_needs_high) + " grams"
+    pro_daily_needs = str(pro_needs_low) + " - " + str(pro_needs_high) + " grams/day"
     return pro_daily_needs
 
 
@@ -76,9 +76,9 @@ def daily_fat_rec_needs(daily_calorie_needs):
     ''' This function calculates the recommended daily needs of fat.
         The recommended daily fat needs is 20-35% of total calorie.
     '''
-    fat_needs_low = round(0.1 * daily_calorie_needs)
+    fat_needs_low = round(0.2 * daily_calorie_needs)
     fat_needs_high = round(0.35 * daily_calorie_needs)
-    fat_daily_needs = str(fat_needs_low) + " - " + str(fat_needs_high) + " grams"
+    fat_daily_needs = str(fat_needs_low) + " - " + str(fat_needs_high) + " grams/day"
     return fat_daily_needs
 
 

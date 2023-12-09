@@ -203,6 +203,7 @@
                 width: 500
             ActivitySpinner:
                 id: activity_spinner
+                text: 'Select an activity level'
                 size_hint_y: None
                 height: 100
                 pos_hint: {'center_y': 0.5}
@@ -212,7 +213,7 @@
             text: 'Next'
             font_size: 80
             font_name: "SF_Cartoonist_Hand_Bold"
-            size_hint: (0.3, 0.7)
+            size_hint: (0.3, 0.6)
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             on_press: root.validate_input()
             on_release: root.manager.current = "goal_asking"
@@ -314,6 +315,9 @@
                 size: 160, 80
                 pos_hint: {'x': 0.4, 'center_y': 0.5}
                 on_release: root.weight_unit_toggle(self)  
+        Widget:
+            size_hint_y: None
+            height: 15
         BlueLabel:
             text: "What's your timeline?"
             font_size: 90
@@ -335,75 +339,151 @@
                 font_name: "SF_Cartoonist_Hand_Bold"
                 color: 0, 0, 0, 1
                 pos_hint: {'center_x': 0.1, 'center_y': 0.5}
+        Widget:
+            size_hint_y: None
+            height: 15
         BlueLabel:
             text: 'Planning to change your activity level?'
             font_size: 90
         ActivitySpinner:
-            id: activity_spinner
-            font_size: 40
-            on_text: root.spinner_selected(activity_spinner.text)
+            id: goal_activity_spinner
+            font_size: 45
+            on_text: root.spinner_selected(goal_activity_spinner.text)
         # Submit Row: submit button
         BoxLayout:
-            spacing: 45
+            spacing: 80
+            Widget:
+                size_hint_x: None
+                width: 120
             RoundedButton:
                 text: 'Back'
                 font_size: 70
-                size_hint: (0.1, 0.6)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint: (0.05, 0.7)
+                pos_hint: {'center_y': 0.5}
                 on_release: 
                     root.manager.current = "goal_asking"
                     root.manager.transition.direction = 'right'
             RoundedButton:
                 text: 'Submit'
                 font_size: 70
-                size_hint: (0.1, 0.6)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                on_press: root.result_goal()
+                size_hint: (0.05, 0.7)
+                pos_hint: {'center_y': 0.5}
+                on_press:
+                    root.validate_input()
                 on_release: root.manager.current = "result_goal"
+            Widget:
+                size_hint_x: None
+                width: 120
 
 
 <ResultmaintainGUI>:
+    # set background color and size of the ResultmaintainGUI screen
+    canvas.before:
+        Color: 
+            rgba: 247/255, 245/255, 235/255, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
     BoxLayout:
         orientation: 'vertical'
-        padding: 20
-        spacing: 10
+        padding: 25
+        spacing: 5
         # title row: tile
-        Label:
+        BlueLabel:
             text: 'Your Results for Weight Maintainence'
-            text_size: root.width, None
-            font_size: 55
-            bold: True
-            color: 0, 0, 0, 1
-            halign: 'center'
-            valign: 'center'
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                RoundedRectangle:
-                    pos: self.pos
-                    size: self.size
-                    radius: [20]
-        Label:
-            id: result_bmr_label
-            text: ''
-        Label:
-            id: result_bmi_label
-            text: ''
-        Label:
-            id: result_total_calorie_label
-            text: ''
-        Label:
-            id: carb_daily_needs_label
-            text: ''
-        Label:
-            id: pro_daily_needs_label
-            text: ''
-        Label:
-            id: fat_daily_needs_label
-            text: ''   
-        Button:
-            text: 'Back'
-            on_press: root.manager.current = "calculator"
+            font_size: 90
+            size_hint_y: None
+            height: 200
+        Widget:
+            size_hint_y: None
+            height: 30
+        BrownBoxLayout:
+            Label:
+                text: 'Current Basal Metabolic Rate (BMR):'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: result_bmr_label
+                text: ''
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BoxLayout:
+            Label:
+                text: 'Current Body Mass Index (BMI):'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: result_bmi_label
+                text: ''
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BrownBoxLayout:
+            Label:
+                text: 'Total Calorie Needs:'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: result_total_calorie_label
+                text: ''
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BoxLayout:
+            Label:
+                text: 'Carbohydrate Intake Needs:'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: carb_daily_needs_label
+                text: ''
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BrownBoxLayout:
+            Label:
+                text: 'Protein Intake Needs:'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: pro_daily_needs_label
+                text: ''
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BoxLayout:
+            Label:
+                text: 'Fat Intake Needs:'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: fat_daily_needs_label
+                text: ''   
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BoxLayout:
+            spacing: 80
+            RoundedButton:
+                text: 'Back'
+                font_size: 70
+                size_hint: (0.05, 0.7)
+                pos_hint: {'center_y': 0.5}
+                on_press: root.manager.current = "goal_asking"
+            RoundedButton:
+                text: 'Start Over'
+                font_size: 70
+                size_hint: (0.05, 0.7)
+                pos_hint: {'center_y': 0.5}
+                on_press: root.manager.current = "calculator"
+        
 
 
 <ResultgoalGUI>:
@@ -514,7 +594,6 @@
     background_down: ''
     background_color: 160/225, 195/255, 210/255, 1
 <ActivitySpinner@Spinner>
-    text: 'Select activity level'
     values: 'Sedentary: little or no exercise', 'Lightly Active: light exercise 1-3 times/week', 'Moderately Active: light to moderate exercise 4-5 times/week', 'Active: moderate exercise 6-7 times/week or intense exercise 3-4 times/week', 'Very Active: intense exercise 6-7 times/week'
     background_normal: ''
     background_color: 187/255, 179/255, 174/255, 1
