@@ -1,16 +1,4 @@
 #:kivy 1.0.9
-<ScreenManagement>
-    CalculatorGUI:
-        name: "calculator"
-    GoalaskingGUI:
-        name: "goal_asking"
-    ResultmaintainGUI:
-        name: "result_maintain"
-    WeightgoalGUI:
-        name: "weight_goal"
-    ResultgoalGUI:
-        name: "result_goal"
-
 
 <CalculatorGUI>:
     # set background color and size of the CalculatorGUI screen
@@ -482,67 +470,121 @@
                 font_size: 70
                 size_hint: (0.05, 0.7)
                 pos_hint: {'center_y': 0.5}
-                on_press: root.manager.current = "calculator"
+                on_press: app.restart_program()
         
 
 
 <ResultgoalGUI>:
+    # set background color and size of the ResultgoalGUI screen
+    canvas.before:
+        Color: 
+            rgba: 247/255, 245/255, 235/255, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
     BoxLayout:
         orientation: 'vertical'
-        padding: 20
+        padding: 25
         spacing: 10
         # title row: tile
-        Label:
+        BlueLabel:
             text: 'Your Results'
-            text_size: root.width, None
-            font_size: 55
-            bold: True
-            color: 0, 0, 0, 1
-            halign: 'center'
-            valign: 'center'
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                RoundedRectangle:
-                    pos: self.pos
-                    size: self.size
-                    radius: [20]
-        Label:
-            id: result_bmr_label
-            text: ''
-        Label:
-            id: result_bmi_label
-            text: ''
-        Label:
+            font_size: 90
+            size_hint_y: None
+            height: 200
+        BrownBoxLayout:
+            Label:
+                text: 'Current Basal Metabolic Rate (BMR):'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: result_bmr_label
+                text: ''
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BoxLayout:
+            Label:
+                text: 'Current Body Mass Index (BMI):'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: result_bmi_label
+                text: ''
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BlueLabel:
             text: ''
             id: achieve_goal
-            font_size: 35
-            color: 0, 0, 0, 1
-            halign: 'center'
-            valign: 'center'
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                RoundedRectangle:
-                    pos: self.pos
-                    size: self.size
-                    radius: [20]
-        Label:
-            id: result_weight_goal_calorie_label
-            text: ''
-            multiline: True
-        Label:
-            id: carb_daily_needs_label
-            text: ''
-        Label:
-            id: pro_daily_needs_label
-            text: ''
-        Label:
-            id: fat_daily_needs_label
-            text: ''   
-        Button:
-            text: 'Back'
-            on_press: root.manager.current = "calculator"
+            font_size: 75
+            size_hint_y: None
+            height: 170
+        BrownBoxLayout:
+            Label:
+                text: 'Total Calorie Needs:'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: result_weight_goal_calorie_label
+                text: ''
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BoxLayout:
+            Label:
+                text: 'Carbohydrate Intake Needs:'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: carb_daily_needs_label
+                text: ''
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BrownBoxLayout:
+            Label:
+                text: 'Protein Intake Needs:'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: pro_daily_needs_label
+                text: ''
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BoxLayout:
+            Label:
+                text: 'Fat Intake Needs:'
+                font_size: 60
+                font_name: "SF_Cartoonist_Hand"
+                color: 0, 0, 0, 1
+            Label:
+                id: fat_daily_needs_label
+                text: ''
+                font_size: 70
+                font_name: "SF_Cartoonist_Hand_Bold"
+                color: 0, 0, 0, 1
+        BoxLayout:
+            spacing: 80
+            RoundedButton:
+                text: 'Back'
+                font_size: 70
+                size_hint: (0.05, 0.7)
+                pos_hint: {'center_y': 0.5}
+                on_press: root.manager.current = "weight_goal"
+            RoundedButton:
+                text: 'Start Over'
+                font_size: 70
+                size_hint: (0.05, 0.7)
+                pos_hint: {'center_y': 0.5}
+                on_press: app.restart_program()
+
 
 
 

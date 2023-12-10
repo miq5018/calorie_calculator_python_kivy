@@ -44,7 +44,7 @@ class CalculatorGUI(Screen):
     def height_unit_toggle(self, instance):
         self.height_unit = instance.text
         return self.height_unit
-
+    
     def spinner_selected(self, values):
         """" set up the spinner for activity level """
         if values:
@@ -59,58 +59,10 @@ class CalculatorGUI(Screen):
             height = self.ids.height_input.text
             weight = self.ids.weight.text
             activity_level = self.ids.activity_spinner.text
-            
-            input_validation = []
+            weight_unit = self.weight_unit
+            height_unit = self.height_unit
 
-            # check if age input is empty
-            if age == '':
-                input_validation.append('age_empty')
-            else:
-                # check if age input is a number
-                if not age.isnumeric():
-                    self.ids.age.text = ''  # Clear the input field
-                    input_validation.append('age_not_number')
-                else:
-                    # check if age input is in range 19-78, inclusively
-                    if float(age) < 19 or float(age) > 78:
-                        self.ids.age.text = ''  # Clear the input field
-                        input_validation.append('age_out_of_range')
-
-            # check if height input is empty
-            if height == '':
-                input_validation.append('height_empty')
-            else:
-                # check if height input is a number
-                if not height.isnumeric():
-                    self.ids.height_input.text = ''  # Clear the input field
-                    input_validation.append('height_not_number')
-                else:
-                    # check if height input is in range from 50-280 cm, inclusively
-                    if float(height) < 50 or float(height) > 280:
-                        self.ids.height_input.text = ''  # Clear the input field
-                        input_validation.append('height_out_of_range')
-            
-            # check if weight input is empty
-            if weight == '':
-                input_validation.append('weight_empty')
-            else:
-                # check if weight input is a number
-                if not weight.isnumeric():
-                    self.ids.weight.text = ''  # Clear the input field
-                    input_validation.append('weight_not_number')
-                else:
-                    # check if weight input is in range from 15-650 kg, inclusively
-                    if float(weight) < 15 or float(weight) > 650:
-                        self.ids.weight.text = ''  # Clear the input field    
-                        input_validation.append('weight_out_of_range')
-
-            # check if gender checkbox is selected
-            if gender == 'Please select a gender':
-                input_validation.append('gender_empty')
-
-            # check if the activity level spinner is selected with a value 
-            if activity_level == 'Select an activity level':
-                input_validation.append('activity_level_empty')
+            input_validation = calorie_calculation.validate_input_calculator(age, gender, height, weight, activity_level, weight_unit, height_unit)
             
             # pops error message if there are more than 1 error
             if len(input_validation) > 1:
@@ -119,20 +71,26 @@ class CalculatorGUI(Screen):
                 if input_validation == ['age_empty']:
                     self.show_error_popup("Please enter an age.")
                 elif input_validation == ['age_not_number']:
+                    self.ids.age.text = ''
                     self.show_error_popup("Invalid age input. Please enter a number.")
                 elif input_validation == ['age_out_of_range']:
+                    self.ids.age.text = ''
                     self.show_error_popup("Invalid age input. Age input range: 19 to 78.")
                 elif input_validation == ['height_empty']:
                     self.show_error_popup("Please enter a height.")
                 elif input_validation == ['height_not_number']:
+                    self.ids.height_input.text = ''
                     self.show_error_popup("Invalid height input. Please enter a number.")
                 elif input_validation == ['height_out_of_range']:
+                    self.ids.height_input.text = ''
                     self.show_error_popup("Invalid height input. Height input range: 50-280 cm (20-110 inches).")
                 elif input_validation == ['weight_empty']:
                     self.show_error_popup("Please enter a weight.")
                 elif input_validation == ['weight_not_number']:
+                    self.ids.weight.text = '' 
                     self.show_error_popup("Invalid weight input. Please enter a number.")
                 elif input_validation == ['weight_out_of_range']:
+                    self.ids.weight.text = '' 
                     self.show_error_popup("Invalid weight input. Weight input range: 15-650 kg (33-1433 lbs).")
                 elif input_validation == ['gender_empty']:
                     self.show_error_popup("Please select a gender.")
@@ -211,64 +169,37 @@ class WeightgoalGUI(Screen):
         return App.activity_level
 
     def validate_input(self):
-            weight_goal = self.ids.weight_goal.text
-            months = self.ids.months.text
-            activity_level = self.ids.goal_activity_spinner.text
-            
-            input_validation = []
+        weight_goal = self.ids.weight_goal.text
+        months = self.ids.months.text
+        activity_level = self.ids.goal_activity_spinner.text
+        goal_weight_unit = str(self.weight_unit)
 
-            # check if weight goal input is empty
-            if weight_goal == '':
-                input_validation.append('weight_goal_empty')
-            else:
-                # check if weight input is a number
-                if not weight_goal.isnumeric():
-                    self.ids.weight_goal.text = ''  # Clear the input field
-                    input_validation.append('weight_goal_not_number')
-                else:
-                    # check if weight input is in range from 15-650 kg, inclusively
-                    if float(weight_goal) < 15 or float(weight_goal) > 650:
-                        self.ids.weight_goal.text = ''  # Clear the input field    
-                        input_validation.append('weight_goal_out_of_range')
-    
-            if months == '':
-                input_validation.append('months_empty')
-            else:
-                # check if months input is a number
-                if not months.isnumeric():
-                    self.ids.months.text = ''  # Clear the input field
-                    input_validation.append('months_not_number')
-                else:
-                # check if months input is in range from 0-120 months
-                    if float(months) <= 0 or float(months) > 120:
-                        self.ids.months.text = ''  # Clear the input field
-                        input_validation.append('months_out_of_range')
-            
-
-            # check if the activity level spinner is selected with a value 
-            if activity_level == 'Select an activity level':
-                input_validation.append('activity_level_empty')
-            
-            # pops error message if there are more than 1 error
-            if len(input_validation) > 1:
-               self.show_error_popup("Multiple invalid inputs or missed inputs. Please check.")
-            elif len(input_validation) == 1:
-                if input_validation == ['weight_goal_empty']:
-                    self.show_error_popup("Please enter a goal weight.")
-                elif input_validation == ['weight_goal_not_number']:
-                    self.show_error_popup("Invalid goal weight input. Please enter a number.")
-                elif input_validation == ['weight_goal_out_of_range']:
-                    self.show_error_popup("Invalid goal weight input. Goal weight input range: 15-650 kg (33-1433 lbs).")
-                elif input_validation == ['months_empty']:
-                    self.show_error_popup("Please enter a time duration.")
-                elif input_validation == ['months_not_number']:
-                    self.show_error_popup("Invalid time duration input. Please enter a number.")
-                elif input_validation == ['months_out_of_range']:
-                    self.show_error_popup("Invalid time duration input. Time duration input range: 0-120 months. ")
-                elif input_validation == ['activity_level_empty']:
-                    self.show_error_popup("Please select an activity level.")
-            else:
-                self.result_goal()
+        input_validation = calorie_calculation.validate_input_goal(weight_goal, goal_weight_unit, months, activity_level)
+  
+        # pops error message if there are more than 1 error
+        if len(input_validation) > 1:
+            self.show_error_popup("Multiple invalid inputs or missed inputs. Please check.")
+        elif len(input_validation) == 1:
+            if input_validation == ['weight_goal_empty']:
+                self.show_error_popup("Please enter a goal weight.")
+            elif input_validation == ['weight_goal_not_number']:
+                self.ids.weight_goal.text = ''
+                self.show_error_popup("Invalid goal weight input. Please enter a number.")
+            elif input_validation == ['weight_goal_out_of_range']:
+                self.ids.weight_goal.text = ''
+                self.show_error_popup("Invalid goal weight input. Goal weight input range: 15-650 kg (33-1433 lbs).")
+            elif input_validation == ['months_empty']:
+                self.show_error_popup("Please enter a time duration.")
+            elif input_validation == ['months_not_number']:
+                self.ids.months.text = ''
+                self.show_error_popup("Invalid time duration input. Please enter a number.")
+            elif input_validation == ['months_out_of_range']:
+                self.ids.months.text = ''
+                self.show_error_popup("Invalid time duration input. Time duration input range: 0-120 months. ")
+            elif input_validation == ['activity_level_empty']:
+                self.show_error_popup("Please select an activity level.")
+        else:
+            self.result_goal()
 
     def show_error_popup(self, message):
         content = BoxLayout(orientation='vertical')
@@ -314,13 +245,13 @@ class WeightgoalGUI(Screen):
         fat_daily_needs = calorie_calculation.daily_fat_rec_needs(result_weight_goal_calorie)
         
 
-        self.manager.get_screen('result_goal').ids.result_bmr_label.text = f'Current Basal Metabolic Rate (BMR): {result_bmr} calories/day'
-        self.manager.get_screen('result_goal').ids.result_bmi_label.text = f'Current Body Mass Index (BMI): {result_bmi} kg/m^2'
-        self.manager.get_screen('result_goal').ids.achieve_goal.text = f'To achieve your Goal Weight of {int(weight_goal)} kg in {int(months)} months with your Current Activity Level:'
-        self.manager.get_screen('result_goal').ids.carb_daily_needs_label.text = 'Daily Carbohydrate Needs: ' + carb_daily_needs
-        self.manager.get_screen('result_goal').ids.pro_daily_needs_label.text = 'Daily Protein Needs: ' + pro_daily_needs
-        self.manager.get_screen('result_goal').ids.fat_daily_needs_label.text = 'Daily Fat Needs: ' + fat_daily_needs
-        self.manager.get_screen('result_goal').ids.result_weight_goal_calorie_label.text = f'Total Calorie Needs: {result_weight_goal_calorie} calories/day'
+        self.manager.get_screen('result_goal').ids.result_bmr_label.text = f'{result_bmr} calories/day'
+        self.manager.get_screen('result_goal').ids.result_bmi_label.text = f'{result_bmi} kg/m^2'
+        self.manager.get_screen('result_goal').ids.achieve_goal.text = f'To achieve your Goal Weight of {int(weight_goal)} kg in {int(months)} months:'
+        self.manager.get_screen('result_goal').ids.carb_daily_needs_label.text = carb_daily_needs
+        self.manager.get_screen('result_goal').ids.pro_daily_needs_label.text =  pro_daily_needs
+        self.manager.get_screen('result_goal').ids.fat_daily_needs_label.text = fat_daily_needs
+        self.manager.get_screen('result_goal').ids.result_weight_goal_calorie_label.text = f'{result_weight_goal_calorie} calories/day'
 
 
 class ResultgoalGUI(Screen):
@@ -330,8 +261,18 @@ class ResultgoalGUI(Screen):
 class CalculatorApp(App):
     activity_level = 'Select an activity level'
     def build(self):
-        return ScreenManagement()
+        screen_manager = ScreenManagement()  # Create an instance of ScreenManagement
+        screen_manager.add_widget(CalculatorGUI(name='calculator'))
+        screen_manager.add_widget(GoalaskingGUI(name='goal_asking'))
+        screen_manager.add_widget(ResultmaintainGUI(name='result_maintain'))
+        screen_manager.add_widget(WeightgoalGUI(name='weight_goal'))
+        screen_manager.add_widget(ResultgoalGUI(name='result_goal'))
+        self.root = screen_manager  # Assign it to the root attribute of the app
+        return screen_manager
+        #return ScreenManagement()
     
+    def restart_program(self):
+        CalculatorApp().run()
 
 
 if __name__ == '__main__':
