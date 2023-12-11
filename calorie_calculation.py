@@ -5,13 +5,14 @@
 """
 
 
-def validate_input_calculator(age, gender, height, weight, 
+def validate_input_calculator(age, gender, height, weight,
                               activity_level, weight_unit, height_unit):
     ''' This function will validate all inputs from the CalculatorGUI screen
         and returns an input_validation list which includes the error code(s)
         to generate the error pop-ups in kivy app.
     '''
-    input_validation = []   #initiate the list to store error code(s)
+    # initiate the list to store error code(s)
+    input_validation = []
 
     # check if age input is empty
     if age == '':
@@ -39,7 +40,7 @@ def validate_input_calculator(age, gender, height, weight,
             # check if height input is in range from 50-280 cm, inclusively
             if float(height) < 50 or float(height) > 280:
                 input_validation.append('height_out_of_range')
-    
+
     # check if weight input is empty
     if weight == '':
         input_validation.append('weight_empty')
@@ -59,15 +60,17 @@ def validate_input_calculator(age, gender, height, weight,
     if gender == 'Please select a gender':
         input_validation.append('gender_empty')
 
-    # check if the activity level spinner is selected with a value 
+    # check if the activity level spinner is selected with a value
     if activity_level == 'Select an activity level':
         input_validation.append('activity_level_empty')
-    
+
     return input_validation
 
-def validate_input_goal(weight_goal, goal_weight_unit, months, 
+
+def validate_input_goal(weight_goal, goal_weight_unit, months,
                         activity_level):
-    input_validation = []   #initiate the list to store error code(s)
+    # initiate the list to store error code(s)
+    input_validation = []
 
     # check if weight goal input is empty
     if weight_goal == '':
@@ -92,16 +95,16 @@ def validate_input_goal(weight_goal, goal_weight_unit, months,
         if not months.isnumeric():
             input_validation.append('months_not_number')
         else:
-        # check if months input is in range from 0-120 months
+            # check if months input is in range from 0-120 months
             if float(months) <= 0 or float(months) > 120:
                 input_validation.append('months_out_of_range')
-    
-    # check if the activity level spinner is selected with a value 
+
+    # check if the activity level spinner is selected with a value
     if activity_level == 'Select an activity level':
         input_validation.append('activity_level_empty')
-    
+
     return input_validation
-            
+
 
 def bmr_calculator(age, gender, weight, height):
     ''' This function will calulate one's basal metobolic rate (BMR).
@@ -114,14 +117,14 @@ def bmr_calculator(age, gender, weight, height):
     '''
     if gender == "Female":
         bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
-    elif gender == "Male": 
+    elif gender == "Male":
         bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
     return round(bmr)
 
 
 def bmi_calculator(weight, height):
     ''' This function will calculate one's body mass index (BMI).
-        Parameters: 
+        Parameters:
             weight - float/integer in kg
             height - float/integer in centimeter
         Returns calculated BMI
@@ -134,7 +137,7 @@ def total_calorie_calculator(bmr, activity_level):
     ''' This function calculates daily total calorie needs.
         Parameters:
             bmr - calculated from function bmr
-            activity_level: Sedentary, Lightly Active, Moderately Active, 
+            activity_level: Sedentary, Lightly Active, Moderately Active,
             Active, Very Active
         Returns daily calorie needs
     '''
@@ -142,9 +145,11 @@ def total_calorie_calculator(bmr, activity_level):
         daily_calorie_needs = bmr * 1.2
     elif activity_level == "Lightly Active: light exercise 1-3 times/week":
         daily_calorie_needs = bmr * 1.375
-    elif activity_level == "Moderately Active: light to moderate exercise 4-5 times/week":
+    elif activity_level == ("Moderately Active: light to moderate exercise "
+                            "4-5 times/week"):
         daily_calorie_needs = bmr * 1.55
-    elif activity_level == "Active: moderate exercise 6-7 times/week or intense exercise 3-4 times/week":
+    elif activity_level == ("Active: moderate exercise 6-7 times/week or "
+                            "intense exercise 3-4 times/week"):
         daily_calorie_needs = bmr * 1.725
     elif activity_level == "Very Active: intense exercise 6-7 times/week":
         daily_calorie_needs = bmr * 1.9
@@ -158,7 +163,10 @@ def daily_carb_rec_needs(daily_calorie_needs):
     '''
     carb_needs_low = round((0.45 * daily_calorie_needs) / 4)
     carb_needs_high = round((0.65 * daily_calorie_needs) / 4)
-    carb_daily_needs = str(carb_needs_low) + " - " + str(carb_needs_high) + " grams/day"
+    carb_daily_needs = (str(carb_needs_low)
+                        + " - "
+                        + str(carb_needs_high)
+                        + " grams/day")
     return carb_daily_needs
 
 
@@ -169,7 +177,10 @@ def daily_protein_rec_needs(daily_calorie_needs):
     '''
     pro_needs_low = round((0.1 * daily_calorie_needs) / 4)
     pro_needs_high = round((0.35 * daily_calorie_needs) / 4)
-    pro_daily_needs = str(pro_needs_low) + " - " + str(pro_needs_high) + " grams/day"
+    pro_daily_needs = (str(pro_needs_low)
+                       + " - "
+                       + str(pro_needs_high)
+                       + " grams/day")
     return pro_daily_needs
 
 
@@ -180,12 +191,18 @@ def daily_fat_rec_needs(daily_calorie_needs):
     '''
     fat_needs_low = round((0.2 * daily_calorie_needs) / 9)
     fat_needs_high = round((0.35 * daily_calorie_needs) / 9)
-    fat_daily_needs = str(fat_needs_low) + " - " + str(fat_needs_high) + " grams/day"
+    fat_daily_needs = (str(fat_needs_low)
+                       + " - "
+                       + str(fat_needs_high)
+                       + " grams/day")
     return fat_daily_needs
 
 
 def weight_goal(daily_calorie_needs, weight_goal, weight, months):
     weight_change = weight_goal - weight
     days = months * 30
-    daily_calorie_needs_weight_change = ((weight_change / 0.45) * 3500) / days + daily_calorie_needs
+    daily_calorie_needs_weight_change = (
+                                        ((weight_change / 0.45) * 3500)
+                                        / days
+                                        + daily_calorie_needs)
     return round(daily_calorie_needs_weight_change)
