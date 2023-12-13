@@ -329,6 +329,8 @@ class WeightgoalGUI(Screen):
         activity_level = str(App.activity_level)
         weight_goal = float(
             self.manager.get_screen('weight_goal').ids.weight_goal.text)
+        weight_goal_print = float(
+            self.manager.get_screen('weight_goal').ids.weight_goal.text)
         months = float(self.manager.get_screen('weight_goal').ids.months.text)
         weight_unit = str(self.manager.get_screen('calculator').weight_unit)
         height_unit = str(self.manager.get_screen('calculator').height_unit)
@@ -362,8 +364,8 @@ class WeightgoalGUI(Screen):
         result.ids.result_bmr_label.text = f'{result_bmr} calories/day'
         result.ids.result_bmi_label.text = f'{result_bmi} kg/m^2'
         result.ids.achieve_goal.text = (
-            f'To achieve your Goal Weight of {int(weight_goal)} kg '
-            f'in {int(months)} months:')
+            f'To achieve your Goal Weight of {int(weight_goal_print)} '
+            f'{goal_weight_unit} in {int(months)} months:')
         result.ids.carb_daily_needs_label.text = carb_daily_needs
         result.ids.pro_daily_needs_label.text = pro_daily_needs
         result.ids.fat_daily_needs_label.text = fat_daily_needs
