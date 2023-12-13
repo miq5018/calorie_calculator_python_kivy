@@ -103,7 +103,7 @@ class CalculatorGUI(Screen):
             elif input_validation == ['age_not_number']:
                 self.ids.age.text = ''
                 self.show_error_popup("Invalid age input. Please "
-                                      "enter a number.")
+                                      "enter an integer number.")
             elif input_validation == ['age_out_of_range']:
                 self.ids.age.text = ''
                 self.show_error_popup("Invalid age input. Age input "
@@ -113,7 +113,7 @@ class CalculatorGUI(Screen):
             elif input_validation == ['height_not_number']:
                 self.ids.height_input.text = ''
                 self.show_error_popup("Invalid height input. Please "
-                                      "enter a number.")
+                                      "enter an integer number.")
             elif input_validation == ['height_out_of_range']:
                 self.ids.height_input.text = ''
                 self.show_error_popup("Invalid height input. Height input"
@@ -124,7 +124,7 @@ class CalculatorGUI(Screen):
             elif input_validation == ['weight_not_number']:
                 self.ids.weight.text = ''
                 self.show_error_popup("Invalid weight input. Please "
-                                      "enter a number.")
+                                      "enter an integer number.")
             elif input_validation == ['weight_out_of_range']:
                 self.ids.weight.text = ''
                 self.show_error_popup("Invalid weight input. Weight input "
@@ -281,7 +281,7 @@ class WeightgoalGUI(Screen):
             elif input_validation == ['months_not_number']:
                 self.ids.months.text = ''
                 self.show_error_popup("Invalid time duration input. Please "
-                                      "enter a number.")
+                                      "enter an integer number.")
             elif input_validation == ['months_out_of_range']:
                 self.ids.months.text = ''
                 self.show_error_popup("Invalid time duration input. "
