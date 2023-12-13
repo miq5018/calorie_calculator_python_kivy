@@ -7,8 +7,7 @@
 
 import unittest
 import calorie_calculation
-from main import CalculatorApp, CalculatorGUI, GoalaskingGUI, WeightgoalGUI
-from main import ScreenManager, ResultmaintainGUI, ResultgoalGUI
+from main import CalculatorApp
 
 
 class CalculatorTest(unittest.TestCase):

@@ -204,8 +204,6 @@
             size_hint: (0.3, 0.6)
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             on_press: root.validate_input()
-            on_release: root.manager.current = "goal_asking"
-
 
 
 <GoalaskingGUI>:
@@ -290,19 +288,19 @@
                 width: 30
             CustomToggleButton:
                 text: 'kg'
-                group: 'weight unit'
+                group: 'weight goal unit'
                 state: 'down'
                 size_hint: None, None
                 size: 160, 80
                 pos_hint: {'left_x': 0.2, 'center_y': 0.5}
-                on_release: root.weight_unit_toggle(self)
+                on_release: root.weight_unit_goal_toggle(self)
             CustomToggleButton:
                 text: 'lbs'
-                group: 'weight unit'
+                group: 'weight goal unit'
                 size_hint: None, None
                 size: 160, 80
                 pos_hint: {'x': 0.4, 'center_y': 0.5}
-                on_release: root.weight_unit_toggle(self)  
+                on_release: root.weight_unit_goal_toggle(self)  
         Widget:
             size_hint_y: None
             height: 15
@@ -358,7 +356,6 @@
                 pos_hint: {'center_y': 0.5}
                 on_press:
                     root.validate_input()
-                on_release: root.manager.current = "result_goal"
             Widget:
                 size_hint_x: None
                 width: 120

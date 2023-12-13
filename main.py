@@ -84,6 +84,18 @@ class CalculatorGUI(Screen):
         if len(input_validation) > 1:
             self.show_error_popup("Multiple invalid inputs or missed "
                                   "inputs. Please check.")
+            if 'age_not_number' in input_validation:
+                self.ids.age.text = ''
+            if 'age_out_of_range' in input_validation:
+                self.ids.age.text = ''
+            if 'height_out_of_range' in input_validation:
+                self.ids.height_input.text = ''
+            if 'height_not_number' in input_validation:
+                self.ids.height_input.text = ''
+            if 'weight_out_of_range' in input_validation:
+                self.ids.weight.text = ''
+            if 'weight_not_number' in input_validation:
+                self.ids.weight.text = ''
         # pops error message if there is only 1 error
         elif len(input_validation) == 1:
             if input_validation == ['age_empty']:
@@ -121,6 +133,9 @@ class CalculatorGUI(Screen):
                 self.show_error_popup("Please select a gender.")
             elif input_validation == ['activity_level_empty']:
                 self.show_error_popup("Please select an activity level.")
+        else:
+            # goes to the goal asking screen if there is no error
+            self.manager.current = "goal_asking"
 
     def show_error_popup(self, message):
         ''' This function shows error popup windows with the
@@ -200,7 +215,7 @@ class WeightgoalGUI(Screen):
     ''' Sets up the Weightgoal screen and several functions on this screen '''
     weight_unit = 'kg'
 
-    def weight_unit_toggle(self, instance):
+    def weight_unit_goal_toggle(self, instance):
         ''' This funtion sets up the weight unit toggle for
             weight goal with kg and lbs.
         '''
@@ -240,6 +255,14 @@ class WeightgoalGUI(Screen):
         if len(input_validation) > 1:
             self.show_error_popup("Multiple invalid inputs or missed inputs. "
                                   "Please check.")
+            if 'weight_goal_not_number' in input_validation:
+                self.ids.weight_goal.text = ''
+            if 'weight_goal_out_of_range' in input_validation:
+                self.ids.weight_goal.text = ''
+            if 'months_out_of_range' in input_validation:
+                self.ids.months.text = ''
+            if 'months_not_number' in input_validation:
+                self.ids.months.text = ''
         # pops error message if there is only 1 error
         elif len(input_validation) == 1:
             if input_validation == ['weight_goal_empty']:
@@ -269,6 +292,8 @@ class WeightgoalGUI(Screen):
         else:
             # calls the result function if there is no error
             self.result_goal()
+            # goes to the result goal screen if there is no error
+            self.manager.current = "result_goal"
 
     def show_error_popup(self, message):
         ''' This function shows error popup windows with the
