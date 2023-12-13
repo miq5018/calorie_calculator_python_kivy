@@ -270,7 +270,7 @@ class WeightgoalGUI(Screen):
             elif input_validation == ['weight_goal_not_number']:
                 self.ids.weight_goal.text = ''
                 self.show_error_popup("Invalid goal weight input. Please "
-                                      "enter a number.")
+                                      "enter an integer number.")
             elif input_validation == ['weight_goal_out_of_range']:
                 self.ids.weight_goal.text = ''
                 self.show_error_popup("Invalid goal weight input. Goal "
